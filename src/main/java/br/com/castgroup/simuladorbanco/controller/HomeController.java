@@ -1,13 +1,13 @@
-package br.com.castgroup.simuladorbanco;
+package br.com.castgroup.simuladorbanco.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class IndexController {
+public class HomeController {
     @GetMapping("")
     public ModelAndView index() {
-        return new ModelAndView("index");
+        return new ModelAndView("home");
     }
 }
