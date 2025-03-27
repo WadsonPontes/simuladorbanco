@@ -8,12 +8,14 @@ import br.com.castgroup.simuladorbanco.enums.SituacaoEnum;
 import br.com.castgroup.simuladorbanco.model.Usuario;
 import br.com.castgroup.simuladorbanco.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
 	@Autowired
     private UsuarioRepository usuarioRepository;
 	
+	@Transactional
 	public SituacaoEnum criar(Usuario usuario) {
 		if (usuario.getNome() == null) {
 			return SituacaoEnum.ERRO_NOME_NULL;
@@ -38,6 +40,7 @@ public class UsuarioService {
 		return SituacaoEnum.SUCESSO;
 	}
 	
+	@Transactional
 	public SituacaoEnum logar(Usuario usuario, HttpSession session) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Usuario usuarioPossivel;

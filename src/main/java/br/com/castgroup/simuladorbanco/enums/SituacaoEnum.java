@@ -16,7 +16,9 @@ public enum SituacaoEnum {
     ERRO_SENHA_ERRADA(8, false, "Senha incorreta"),
     SUCESSO_CREDITO(9, true, "Valor creditado com sucesso!"),
     ERRO_NEGATIVO(10, true, "Insira um valor maior que zero"),
-    ERRO_SALDO(11, true, "Saldo insuficiente");
+    ERRO_SALDO(11, true, "Saldo insuficiente"),
+    SUCESSO_DEBITO(12, true, "Valor debitado com sucesso!"),
+    SUCESSO_TRANSFERENCIA(13, true, "Valor transferido com sucesso!");
 	
 	private final int id;
 	private final boolean sucesso;

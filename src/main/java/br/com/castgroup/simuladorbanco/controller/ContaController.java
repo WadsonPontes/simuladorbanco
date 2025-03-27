@@ -69,4 +69,17 @@ public class ContaController {
 		redirectAttributes.addFlashAttribute("erro", situacao.getDescricao());
 	    return new ModelAndView("redirect:/conta/credito");
     }
+	
+	@PostMapping("/conta/debitar")
+    public ModelAndView debitar(Conta destino, RedirectAttributes redirectAttributes, HttpSession session) {
+		SituacaoEnum situacao = contaService.debitar(destino.getSaldo(), session);
+		
+		if (situacao == SituacaoEnum.SUCESSO_DEBITO) {
+			redirectAttributes.addFlashAttribute("sucesso", situacao.getDescricao());
+	        return new ModelAndView("redirect:/conta/debito");
+        }
+		
+		redirectAttributes.addFlashAttribute("erro", situacao.getDescricao());
+	    return new ModelAndView("redirect:/conta/debito");
+    }
 }
