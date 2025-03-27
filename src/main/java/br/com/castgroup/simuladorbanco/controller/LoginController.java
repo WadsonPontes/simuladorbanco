@@ -29,7 +29,7 @@ public class LoginController {
 		
 		if (situacao == SituacaoUsuarioEnum.SUCESSO) {
 			redirectAttributes.addFlashAttribute("sucesso", situacao.getDescricao());
-	        return new ModelAndView("redirect:/dashboard");
+	        return new ModelAndView("redirect:/cliente");
         }
 		
 		redirectAttributes.addFlashAttribute("erro", situacao.getDescricao());
