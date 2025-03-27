@@ -3,7 +3,10 @@ package br.com.castgroup.simuladorbanco.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import br.com.castgroup.simuladorbanco.enums.TipoUsuarioEnum;
 
 @Entity
 @Data
@@ -26,9 +29,24 @@ public class Usuario {
     private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_usuario_id", nullable = false)
+    @JoinColumn(name = "tipo_usuario_id", nullable = false, columnDefinition = "INT DEFAULT 1")
     private TipoUsuario tipo;
 
     @OneToMany(mappedBy = "titular", cascade = CascadeType.ALL)
     private List<Conta> contas;
+    
+    @PrePersist
+    public void setDefaultValues() {
+        if (tipo == null) {
+            this.tipo = TipoUsuarioEnum.CLIENTE.toModel();
+        }
+        
+        if (this.contas == null) {
+        	this.contas = new ArrayList<Conta>();
+        }
+        
+        if (this.contas.isEmpty()) {
+            this.contas.add(new Conta(this));
+        }
+    }
 }

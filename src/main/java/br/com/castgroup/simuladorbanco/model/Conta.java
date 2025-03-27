@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -23,11 +24,17 @@ public class Conta {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario titular;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "NUMERIC DEFAULT 0.0")
     private BigDecimal saldo;
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL)
     private List<Transacao> transacoes;
+    
+    public Conta(Usuario titular) {
+    	this.numeroConta = UUID.randomUUID().toString();
+    	this.titular = titular;
+    	this.saldo = BigDecimal.ZERO;
+    }
 
     public void creditar(BigDecimal valor) {
         this.saldo = this.saldo.add(valor);

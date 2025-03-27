@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public enum TipoUsuarioEnum {
-    ADMIN(1, "Admin"),
-    CLIENTE(2, "Cliente");
+	CLIENTE(1, "Cliente"),
+    ADMIN(2, "Admin");
 
     private final int id;
     private final String nome;
