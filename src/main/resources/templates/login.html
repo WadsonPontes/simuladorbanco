@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
 	<div class="container">
+		<a href="/" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
         <img th:src="@{/img/logo.png}" alt="Logo" class="logo">
         <h2>Login</h2>
         <form th:action="@{/logar}" method="post" th:object="${usuario}">
@@ -15,14 +17,11 @@
             <input type="password" placeholder="Senha" th:field="*{senha}" required>
             <button class="btn" type="submit">Logar</button>
             
-            <div th:if="${sucesso}" class="sucesso">
-        		<p th:text="${sucesso}"></p>
-		    </div>
-		    
-		    <div th:if="${erro}" class="erro">
-		        <p th:text="${erro}"></p>
-		    </div>
+            <div class="mensagem" th:classappend="${sucesso} ? 'sucesso' : (${erro} ? 'erro' : 'invisible')">
+	    		<p th:text="${sucesso} ?: (${erro} ?: '')"></p>
+			</div>
         </form>
+        <a href="/cadastro" class="login-link">Não tem uma conta? Cadastre-se</a>
     </div>
 </body>
 </html>

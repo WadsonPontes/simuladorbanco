@@ -1,13 +1,18 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Simulado - Bem-vindo!</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-    Wadson Pontes
+    <div class="container">
+    	<img th:src="@{/img/logo.png}" alt="Logo Banco Simulado" class="logo">
+        <h1>Banco Simulado</h1>
+        <p>Nosso banco é tão seguro que nem o dinheiro entra!</p>
+        <a href="/login" class="btn">Login</a>
+        <a href="/cadastro" class="btn">Cadastro</a>
+    </div>
 </body>
 </html>

@@ -51,10 +51,40 @@ input {
     background: #e65c00;
 }
 
+.mensagem {
+    height: 20px;
+}
+
 .sucesso {
 	color: green;
 }
 
 .erro {
 	color: red;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.back-arrow {
+    position: absolute;
+	top: 10px;
+	left: 10px;
+	text-decoration: none;
+	background-color: black;
+	color: white;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	font-size: 20px;
+}
+
+.login-link {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
 }
