@@ -1,0 +1,129 @@
+* {
+	box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FF6A00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #FF6A00;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100vw;
+    height: 0px;
+}
+.saldo {
+    background-color: white;
+    color: #FF6A00;
+    padding: 10px;
+}
+.container {
+    max-width: 500px;
+    margin: auto;
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1, h2, h3 {
+    color: #FF6A00;
+	margin-bottom: 10px;
+    width: 360px;
+}
+form {
+	display: flex;
+    min-height: 250px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.form-sair {
+	min-height: 10px;
+}
+.botao-sair {
+    background: white;
+    color: #FF6A00;
+    border: none;
+    padding: 10px 20px;
+    max-width: 360px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px auto;
+}
+.botao-sair:hover {
+    background-color: #E55A00;
+    color: white;
+    border: 1px solid white;
+}
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background: #FF6A00;
+    padding: 5px;
+    border-radius: 5px;
+}
+.tabs a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 15px;
+    border-radius: 5px;
+}
+.tabs a:hover {
+    background: #E55A00;
+}
+.tabs a.active {
+    background: white;
+    color: #FF6A00;
+    font-weight: bold;
+}
+button {
+    background: #FF6A00;
+    color: white;
+    border: none;
+    padding: 10px;
+    max-width: 360px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px auto;
+}
+button:hover {
+    background-color: #E55A00;
+}
+input, select {
+	max-width: 360px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.logo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #FF6A00;
+}

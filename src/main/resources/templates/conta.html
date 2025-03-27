@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador de Banco</title>
+    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/conta.css}">
+</head>
+<body>
+	<div class="header">
+        <div class="saldo">Saldo: R$ <span th:text="${saldo}"></span></div>
+        <form class="form-sair" th:action="@{/sair}" method="post">
+            <button type="submit" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </form>
+    </div>
+    
+    <div class="container">
+    	<img th:src="@{/img/logo.png}" alt="Logo" class="logo">
+        
+        <div class="tabs">
+            <a th:href="@{/conta/credito}" th:classappend="${pagina == 'credito' ? 'active' : ''}"><i class="fas fa-plus-circle"></i> Credito</a>
+            <a th:href="@{/conta/debito}" th:classappend="${pagina == 'debito' ? 'active' : ''}"><i class="fas fa-minus-circle"></i> Debito</a>
+            <a th:href="@{/conta/transferencia}" th:classappend="${pagina == 'transferencia' ? 'active' : ''}"><i class="fas fa-exchange-alt"></i> Transferência</a>
+        </div>
+        
+        <div th:if="${pagina == 'credito'}">
+	        <form th:action="@{/conta/creditar}" method="post">
+	        	<h3>Insira o valor que deseja creditar</h3>
+	            <input type="text" placeholder="Valor a creditar" th:field="*{valor}" required>
+	            <button type="submit">Creditar</button>
+	        </form>
+	    </div>
+        
+        <div th:if="${pagina == 'debito'}">
+	        <form th:action="@{/conta/debitar}" method="post">
+	        	<h3>Insira o valor que deseja debitar</h3>
+	        	<input type="text" placeholder="Valor a debitar" th:field="*{valor}" required>
+	            <button type="submit">Debitar</button>
+	        </form>
+	    </div>
+        
+        <div th:if="${pagina == 'transferencia'}">
+	        <form th:action="@{/conta/transferir}" method="post">
+	        	<h3>Insira o número da conta de destino e valor</h3>
+	        	<input type="text" placeholder="Número da conta destino" th:field="*{destino.numeroConta}" required>
+	        	<input type="text" placeholder="Valor da tranferência" th:field="*{valor}" required>       
+	            <button type="submit">Transferir</button>
+	        </form>
+	    </div>
+    </div>
+</body>
+</html>
