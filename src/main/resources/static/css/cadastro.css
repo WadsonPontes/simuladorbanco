@@ -51,10 +51,18 @@ input {
     background: #e65c00;
 }
 
+.mensagem {
+    height: 40px;
+}
+
 .sucesso {
 	color: green;
 }
 
 .erro {
 	color: red;
+}
+
+.invisible {
+    visibility: hidden;
 }
