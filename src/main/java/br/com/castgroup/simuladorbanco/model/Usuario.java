@@ -32,7 +32,7 @@ public class Usuario {
     @JoinColumn(name = "tipo_usuario_id", nullable = false, columnDefinition = "INT DEFAULT 1")
     private TipoUsuario tipo;
 
-    @OneToMany(mappedBy = "titular", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "titular", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Conta> contas;
     
     @PrePersist

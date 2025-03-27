@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.com.castgroup.simuladorbanco.enums.SituacaoUsuarioEnum;
+import br.com.castgroup.simuladorbanco.enums.SituacaoEnum;
 import br.com.castgroup.simuladorbanco.model.Usuario;
 import br.com.castgroup.simuladorbanco.service.UsuarioService;
 
@@ -25,9 +25,9 @@ public class CadastroController {
 	
 	@PostMapping("/cadastrar")
     public ModelAndView cadastrar(Usuario usuario, RedirectAttributes redirectAttributes) {
-		SituacaoUsuarioEnum situacao = usuarioService.criar(usuario);
+		SituacaoEnum situacao = usuarioService.criar(usuario);
 		
-		if (situacao == SituacaoUsuarioEnum.SUCESSO) {
+		if (situacao == SituacaoEnum.SUCESSO) {
 			redirectAttributes.addFlashAttribute("sucesso", situacao.getDescricao());
 	        return new ModelAndView("redirect:/login");
         }

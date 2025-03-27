@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SituacaoUsuarioEnum {
+public enum SituacaoEnum {
 	SUCESSO(1, true, "Sucesso no cadastro!"),
     ERRO_NOME_NULL(2, false, "Campo nome obrigatório"),
     ERRO_EMAIL_NULL(3, false, "Campo e-mail obrigatório"),
@@ -13,7 +13,10 @@ public enum SituacaoUsuarioEnum {
     ERRO_EMAIL_EXISTE(5, false, "E-mail já cadastrado"),
     ERRO_SENHA_FRACA(6, false, "A senha deve ter no mínimo 8 caracteres"),
     ERRO_EMAIL_NAO_EXISTE(7, false, "Usuário não cadastrado"),
-    ERRO_SENHA_ERRADA(8, false, "Senha incorreta");
+    ERRO_SENHA_ERRADA(8, false, "Senha incorreta"),
+    SUCESSO_CREDITO(9, true, "Valor creditado com sucesso!"),
+    ERRO_NEGATIVO(10, true, "Insira um valor maior que zero"),
+    ERRO_SALDO(11, true, "Saldo insuficiente");
 	
 	private final int id;
 	private final boolean sucesso;

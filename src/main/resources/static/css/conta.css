@@ -127,3 +127,14 @@ input, select {
     font-weight: bold;
     color: #FF6A00;
 }
+.mensagem {
+    height: 20px;
+}
+
+.sucesso {
+	color: green;
+}
+
+.erro {
+	color: red;
+}
