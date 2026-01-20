@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.castgroup.simuladorbanco.annotation.RequireAdmin;
+import br.com.castgroup.simuladorbanco.annotation.RequireLogin;
 import br.com.castgroup.simuladorbanco.enums.SituacaoEnum;
 import br.com.castgroup.simuladorbanco.model.Conta;
 import br.com.castgroup.simuladorbanco.model.Usuario;
@@ -19,14 +21,17 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ContaController {
+	
 	@Autowired
     private ContaService contaService;
 	
+	@RequireLogin
 	@GetMapping("/conta")
     public ModelAndView conta() {
         return new ModelAndView("redirect:/conta/credito");
     }
 	
+	@RequireLogin
 	@GetMapping("/conta/credito")
     public ModelAndView credito(HttpSession session) {
 		ModelAndView mav = new ModelAndView("conta");
@@ -37,6 +42,7 @@ public class ContaController {
         return mav;
     }
 	
+	@RequireLogin
 	@GetMapping("/conta/debito")
     public ModelAndView debito(HttpSession session) {
 		ModelAndView mav = new ModelAndView("conta");
@@ -47,6 +53,7 @@ public class ContaController {
         return mav;
     }
 	
+	@RequireLogin
 	@GetMapping("/conta/transferencia")
     public ModelAndView transferencia(HttpSession session) {
 		ModelAndView mav = new ModelAndView("conta");
@@ -57,6 +64,7 @@ public class ContaController {
         return mav;
     }
 	
+	@RequireLogin
 	@PostMapping("/conta/creditar")
     public ModelAndView creditar(Conta destino, RedirectAttributes redirectAttributes, HttpSession session) {
 		SituacaoEnum situacao = contaService.creditar(destino.getSaldo(), session);
@@ -70,6 +78,7 @@ public class ContaController {
 	    return new ModelAndView("redirect:/conta/credito");
     }
 	
+	@RequireLogin
 	@PostMapping("/conta/debitar")
     public ModelAndView debitar(Conta destino, RedirectAttributes redirectAttributes, HttpSession session) {
 		SituacaoEnum situacao = contaService.debitar(destino.getSaldo(), session);
@@ -83,6 +92,7 @@ public class ContaController {
 	    return new ModelAndView("redirect:/conta/debito");
     }
 	
+	@RequireLogin
 	@PostMapping("/conta/transferir")
     public ModelAndView transferir(Conta destino, RedirectAttributes redirectAttributes, HttpSession session) {
 		SituacaoEnum situacao = contaService.transferir(destino, session);
