@@ -17,7 +17,7 @@ public class Conta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, length = 10)
     private String numeroConta;
 
     @ManyToOne
@@ -31,9 +31,14 @@ public class Conta {
     private List<Transacao> transacoes;
     
     public Conta(Usuario titular) {
-    	this.numeroConta = UUID.randomUUID().toString();
     	this.titular = titular;
     	this.saldo = BigDecimal.ZERO;
+    }
+    
+    @PostPersist
+    public void gerarNumeroConta() {
+    	String numeroConta = String.format("%010d", this.id);
+		this.setNumeroConta(numeroConta);
     }
 
     public void creditar(BigDecimal valor) {
@@ -43,6 +48,15 @@ public class Conta {
     public boolean debitar(BigDecimal valor) {
         if (this.saldo.compareTo(valor) >= 0) {
             this.saldo = this.saldo.subtract(valor);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean transferir(BigDecimal valor, Conta conta) {
+        if (this.saldo.compareTo(valor) >= 0) {
+        	this.debitar(valor);
+            conta.creditar(valor);
             return true;
         }
         return false;

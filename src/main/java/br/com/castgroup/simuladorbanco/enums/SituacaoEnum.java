@@ -18,7 +18,9 @@ public enum SituacaoEnum {
     ERRO_NEGATIVO(10, true, "Insira um valor maior que zero"),
     ERRO_SALDO(11, true, "Saldo insuficiente"),
     SUCESSO_DEBITO(12, true, "Valor debitado com sucesso!"),
-    SUCESSO_TRANSFERENCIA(13, true, "Valor transferido com sucesso!");
+    SUCESSO_TRANSFERENCIA(13, true, "Valor transferido com sucesso!"),
+    ERRO_CONTA(14, true, "Número da conta incorreto"),
+    ERRO_AUTOTRANSFERENCIA(15, true, "Conta de destino não pode ser a mesma da origem");
 	
 	private final int id;
 	private final boolean sucesso;

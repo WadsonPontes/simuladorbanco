@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
@@ -13,7 +13,7 @@
 		<a href="/" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
         <img th:src="@{/img/logo.png}" alt="Logo" class="logo">
         <h2>Login</h2>
-        <form th:action="@{/logar}" method="post" th:object="${usuario}">
+        <form th:action="@{/login}" method="post" th:object="${usuario}">
             <input type="email" placeholder="E-mail" th:field="*{email}" required>
             <input type="password" placeholder="Senha" th:field="*{senha}" required>
             <button class="btn" type="submit">Logar</button>

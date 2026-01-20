@@ -25,7 +25,7 @@ public class ContaService {
 		}
 		
 		conta.creditar(valor);
-		contaRepository.save(conta);
+		conta = contaRepository.save(conta);
 		
 		session.setAttribute("conta", conta);
 		
@@ -45,10 +45,41 @@ public class ContaService {
 		}
 		
 		conta.debitar(valor);
-		contaRepository.save(conta);
+		conta = contaRepository.save(conta);
 		
 		session.setAttribute("conta", conta);
 		
 		return SituacaoEnum.SUCESSO_DEBITO;
+	}
+	
+	@Transactional
+	public SituacaoEnum transferir(Conta destino, HttpSession session) {
+		BigDecimal valor = destino.getSaldo();
+		Conta contaSession = (Conta) session.getAttribute("conta");
+		Conta contaOrigem = contaRepository.findByNumeroConta(contaSession.getNumeroConta());
+		Conta contaDestino = contaRepository.findByNumeroConta(destino.getNumeroConta());
+		
+		if (contaDestino == null) {
+			return SituacaoEnum.ERRO_CONTA;
+		}
+		else if (contaDestino.getId() == contaOrigem.getId()) {
+			return SituacaoEnum.ERRO_AUTOTRANSFERENCIA;
+		}
+		
+		if (valor.compareTo(BigDecimal.ZERO) <= 0) {
+			return SituacaoEnum.ERRO_NEGATIVO;
+		}
+		else if (contaOrigem.getSaldo().compareTo(valor) < 0) {
+			return SituacaoEnum.ERRO_SALDO;
+		}
+		
+		contaOrigem.debitar(valor);
+		contaDestino.creditar(valor);
+		contaOrigem = contaRepository.save(contaOrigem);
+		contaRepository.save(contaDestino);
+		
+		session.setAttribute("conta", contaOrigem);
+		
+		return SituacaoEnum.SUCESSO_TRANSFERENCIA;
 	}
 }

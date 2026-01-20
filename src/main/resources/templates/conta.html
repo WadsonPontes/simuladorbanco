@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Simulador de Banco</title>
-    <link rel="icon" type="image/png" th:href="@{/img/logo.png}">
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
     <link rel="stylesheet" th:href="@{/css/conta.css}">
 </head>
 <body>
 	<div class="header">
         <div class="saldo">Saldo: R$ <span th:text="${conta.saldo}"></span></div>
-        <form class="form-sair" th:action="@{/sair}" method="post">
+        <form class="form-sair" th:action="@{/sair}" method="get">
             <button type="submit" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </form>
     </div>
@@ -38,7 +38,7 @@
         <div th:if="${pagina == 'debito'}">
 	        <form th:action="@{/conta/debitar}" method="post" th:object="${destino}">
 	        	<h3>Insira o valor que deseja debitar</h3>
-	        	<input type="text" placeholder="Valor a debitar" th:field="*{saldo}" required>
+	        	<input type="number" placeholder="Valor a debitar" th:field="*{saldo}" step="0.01" required>
 	            <button type="submit">Debitar</button>
 	            <div class="mensagem" th:classappend="${sucesso} ? 'sucesso' : (${erro} ? 'erro' : 'invisible')">
 		    		<p th:text="${sucesso} ?: (${erro} ?: '')"></p>
@@ -47,10 +47,10 @@
 	    </div>
         
         <div th:if="${pagina == 'transferencia'}">
-	        <form th:action="@{/conta/transferir}" method="post" th:object="${destino}">
-	        	<h3>Insira o número da conta de destino e valor</h3>
+	        <form th:action="@{/conta/transferir}" method="post" th:object="${destino}" class="form-tranferencia">
+	        	<h3>Insira conta destino e valor</h3>
 	        	<input type="text" placeholder="Número da conta destino" th:field="*{numeroConta}" required>
-	        	<input type="text" placeholder="Valor da tranferência" th:field="*{saldo}" required>       
+	        	<input type="number" placeholder="Valor da tranferência" th:field="*{saldo}" step="0.01" required>       
 	            <button type="submit">Transferir</button>
 	            <div class="mensagem" th:classappend="${sucesso} ? 'sucesso' : (${erro} ? 'erro' : 'invisible')">
 		    		<p th:text="${sucesso} ?: (${erro} ?: '')"></p>

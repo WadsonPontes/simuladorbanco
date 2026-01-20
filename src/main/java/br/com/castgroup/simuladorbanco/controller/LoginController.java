@@ -25,7 +25,7 @@ public class LoginController {
         return mav;
     }
 	
-	@PostMapping("/logar")
+	@PostMapping("/login")
     public ModelAndView logar(Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 		SituacaoEnum situacao = usuarioService.logar(usuario, session);
 		
@@ -34,14 +34,16 @@ public class LoginController {
 	        return new ModelAndView("redirect:/conta");
         }
 		
-		redirectAttributes.addFlashAttribute("erro", situacao.getDescricao());
-	    return new ModelAndView("redirect:/login");
+	    ModelAndView mav = new ModelAndView("login");
+	    mav.addObject("erro", situacao.getDescricao());
+	    mav.addObject("usuario", usuario);
+	    return mav;
     }
 	
 	@GetMapping("/sair")
     public ModelAndView sair(HttpSession session) {
         session.removeAttribute("usuario");
         session.removeAttribute("conta");
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/");
     }
 }

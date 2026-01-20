@@ -36,7 +36,7 @@ public class Usuario {
     private List<Conta> contas;
     
     @PrePersist
-    public void setDefaultValues() {
+    public void atribuirValoresPadrao() {
         if (tipo == null) {
             this.tipo = TipoUsuarioEnum.CLIENTE.toModel();
         }

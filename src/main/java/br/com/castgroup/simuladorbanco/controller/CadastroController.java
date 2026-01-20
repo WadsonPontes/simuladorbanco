@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -23,7 +24,7 @@ public class CadastroController {
         return mav;
     }
 	
-	@PostMapping("/cadastrar")
+	@PostMapping("/cadastro")
     public ModelAndView cadastrar(Usuario usuario, RedirectAttributes redirectAttributes) {
 		SituacaoEnum situacao = usuarioService.criar(usuario);
 		
@@ -32,7 +33,9 @@ public class CadastroController {
 	        return new ModelAndView("redirect:/login");
         }
 		
-		redirectAttributes.addFlashAttribute("erro", situacao.getDescricao());
-	    return new ModelAndView("redirect:/cadastro");
+		ModelAndView mav = new ModelAndView("cadastro");
+	    mav.addObject("erro", situacao.getDescricao());
+	    mav.addObject("usuario", usuario);
+	    return mav;
     }
 }
