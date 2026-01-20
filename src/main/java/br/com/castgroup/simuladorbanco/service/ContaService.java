@@ -82,4 +82,18 @@ public class ContaService {
 		
 		return SituacaoEnum.SUCESSO_TRANSFERENCIA;
 	}
+	
+	@Transactional
+    public boolean excluir(Long id) {
+        try {
+            if (contaRepository.existsById(id)) {
+                contaRepository.deleteById(id);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

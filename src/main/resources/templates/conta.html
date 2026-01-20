@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div class="header">
-        <div class="saldo">Saldo: R$ <span th:text="${conta.saldo}"></span></div>
+        <div class="saldo">Saldo: R$ <span th:text="${#numbers.formatDecimal(conta.saldo, 1, 'DEFAULT', 2, 'DEFAULT')}"></span></div>
         <form class="form-sair" th:action="@{/sair}" method="get">
             <button type="submit" class="botao-sair"><i class="fas fa-sign-out-alt"></i> Sair</button>
         </form>
@@ -49,7 +49,8 @@
         <div th:if="${pagina == 'transferencia'}">
 	        <form th:action="@{/conta/transferir}" method="post" th:object="${destino}" class="form-tranferencia">
 	        	<h3>Insira conta destino e valor</h3>
-	        	<input type="text" placeholder="Número da conta destino" th:field="*{numeroConta}" required>
+	        	<input type="text" placeholder="Número da conta destino" th:field="*{numeroConta}" maxlength="10" 
+	        		oninput="this.value = this.value.replace(/\D/g, '')" required>
 	        	<input type="number" placeholder="Valor da tranferência" th:field="*{saldo}" step="0.01" required>       
 	            <button type="submit">Transferir</button>
 	            <div class="mensagem" th:classappend="${sucesso} ? 'sucesso' : (${erro} ? 'erro' : 'invisible')">

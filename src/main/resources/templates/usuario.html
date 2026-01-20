@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Usuário - Admin</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/usuario.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <a href="/admin" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+                <h1>Detalhes do Usuário</h1>
+            </div>
+        </header>
+
+        <main>
+            <!-- Mensagens de Sucesso/Erro -->
+            <div class="mensagem sucesso" th:if="${sucesso}">
+                <i class="fas fa-check-circle"></i>
+                <p th:text="${sucesso}"></p>
+            </div>
+            
+            <div class="mensagem erro" th:if="${erro}">
+                <i class="fas fa-exclamation-circle"></i>
+                <p th:text="${erro}"></p>
+            </div>
+
+            <!-- Informações do Usuário -->
+            <div class="user-card">
+                <div class="user-header">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-info">
+                        <h2 th:text="${usuario.nome}">Nome do Usuário</h2>
+                        <span class="badge" 
+                              th:classappend="${usuario.tipo.id == 1 ? 'badge-admin' : 'badge-cliente'}"
+                              th:text="${usuario.tipo.nome}">
+                            CLIENTE
+                        </span>
+                    </div>
+                </div>
+
+                <div class="user-details">
+                    <div class="detail-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span class="label">E-mail</span>
+                            <span class="value" th:text="${usuario.email}">email@exemplo.com</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fas fa-id-card"></i>
+                        <div>
+                            <span class="label">CPF</span>
+                            <span class="value" th:text="${#strings.substring(usuario.cpf, 0, 3) + '.' + 
+                                #strings.substring(usuario.cpf, 3, 6) + '.' + 
+                                #strings.substring(usuario.cpf, 6, 9) + '-' + 
+                                #strings.substring(usuario.cpf, 9, 11)}">000.000.000-00</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-item highlight">
+                        <i class="fas fa-wallet"></i>
+                        <div>
+                            <span class="label">Saldo Total</span>
+                            <span class="value saldo-total" th:text="'R$ ' + ${#numbers.formatDecimal(saldoTotal, 1, 'DEFAULT', 2, 'DEFAULT')}">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contas do Usuário -->
+            <div class="contas-section">
+                <h3><i class="fas fa-university"></i> Contas Bancárias</h3>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Número da Conta</th>
+                                <th>Saldo</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="conta : ${usuario.contas}">
+                                <td>
+                                    <span class="conta-numero" th:text="${conta.numeroConta}">0000000001</span>
+                                </td>
+                                <td>
+                                    <span class="saldo" th:text="'R$ ' + ${#numbers.formatDecimal(conta.saldo, 1, 'DEFAULT', 2, 'DEFAULT')}">R$ 0,00</span>
+                                </td>
+                                <td class="actions">
+                                    <form th:action="@{/usuario/{usuarioId}/conta/{contaId}/excluir(usuarioId=${usuario.id}, contaId=${conta.id})}" 
+                                          method="post"
+                                          class="form-inline"
+                                          onsubmit="return confirm('Tem certeza que deseja excluir esta conta?');">
+                                        <button type="submit" 
+                                                class="btn btn-delete"
+                                                th:disabled="${#lists.size(usuario.contas) == 1}"
+                                                title="Excluir conta">
+                                            <i class="fas fa-trash"></i> Excluir
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            
+                            <tr th:if="${#lists.isEmpty(usuario.contas)}">
+                                <td colspan="3" class="no-data">Nenhuma conta cadastrada</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

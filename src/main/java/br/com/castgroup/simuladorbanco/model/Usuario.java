@@ -18,6 +18,9 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false, unique = true, length = 11)
+    private String cpf;
 
     @Column(nullable = false, length = 255)
     private String nome;
@@ -48,5 +51,13 @@ public class Usuario {
         if (this.contas.isEmpty()) {
             this.contas.add(new Conta(this));
         }
+    }
+    
+    public boolean isAdmin() {
+        return tipo != null && tipo.toEnum() == TipoUsuarioEnum.ADMIN;
+    }
+
+    public boolean isCliente() {
+        return tipo != null && tipo.toEnum() == TipoUsuarioEnum.CLIENTE;
     }
 }

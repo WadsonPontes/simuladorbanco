@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários - Admin</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.png}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img th:src="@{/img/logo.png}" alt="Logo" class="logo">
+                <h1>Gerenciamento de Usuários</h1>
+                <div class="user-info">
+                    <span th:text="${usuarioLogado.nome}">Admin</span>
+                    <a href="/sair" class="btn-secondary">Sair</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Mensagens de Sucesso/Erro -->
+            <div class="mensagem sucesso" th:if="${sucesso}">
+                <i class="fas fa-check-circle"></i>
+                <p th:text="${sucesso}"></p>
+            </div>
+            
+            <div class="mensagem erro" th:if="${erro}">
+                <i class="fas fa-exclamation-circle"></i>
+                <p th:text="${erro}"></p>
+            </div>
+
+            <!-- Tabela de Usuários -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CPF</th>
+                            <th>Nome</th>
+                            <th>Papel</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td th:text="${#strings.substring(usuario.cpf, 0, 3) + '.' + 
+                                #strings.substring(usuario.cpf, 3, 6) + '.' + 
+                                #strings.substring(usuario.cpf, 6, 9) + '-' + 
+                                #strings.substring(usuario.cpf, 9, 11)}">000.000.000-00</td>
+                            <td th:text="${usuario.nome}">João Silva</td>
+                            <td>
+                                <span class="badge" 
+                                      th:classappend="${usuario.tipo.id == 1 ? 'badge-admin' : 'badge-cliente'}"
+                                      th:text="${usuario.tipo.nome}">
+                                    CLIENTE
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a th:href="@{/usuario/{id}(id=${usuario.id})}" 
+                                   class="btn btn-edit" 
+                                   title="Editar usuário">
+                                    <i class="fas fa-edit"></i> Detalhes
+                                </a>
+                                
+                                <form th:action="@{/usuario/{id}/excluir(id=${usuario.id})}" 
+                                      method="post" 
+                                      class="form-inline"
+                                      onsubmit="return confirm('Tem certeza que deseja excluir este usuário? Todas as contas serão excluídas também.');">
+                                    <button type="submit" 
+                                            class="btn btn-delete"
+                                            th:disabled="${usuario.id == usuarioLogado.id}"
+                                            title="Excluir usuário">
+                                        <i class="fas fa-trash"></i> Excluir
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        
+                        <tr th:if="${#lists.isEmpty(usuarios)}">
+                            <td colspan="4" class="no-data">Nenhum usuário cadastrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

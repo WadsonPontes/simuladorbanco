@@ -1,5 +1,7 @@
 package br.com.castgroup.simuladorbanco.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,10 @@ public class UsuarioService {
 	
 	@Transactional
 	public SituacaoEnum criar(Usuario usuario) {
-		if (usuario.getNome() == null) {
+		if (usuario.getCpf() == null) {
+			return SituacaoEnum.ERRO_CPF_NULL;
+		}
+		else if (usuario.getNome() == null) {
 			return SituacaoEnum.ERRO_NOME_NULL;
 		}
 		else if (usuario.getEmail() == null) {
@@ -66,4 +71,26 @@ public class UsuarioService {
 		
 		return SituacaoEnum.SUCESSO;
 	}
+	
+	public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
+    
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+    
+    @Transactional
+    public boolean excluir(Long id) {
+        try {
+            if (usuarioRepository.existsById(id)) {
+                usuarioRepository.deleteById(id);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

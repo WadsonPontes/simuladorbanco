@@ -13,7 +13,9 @@
 		<a href="/" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
         <img th:src="@{/img/logo.png}" alt="Logo" class="logo">
         <h2>Cadastro</h2>
-        <form th:action="@{/cadastro}" method="post" th:object="${usuario}">
+        <form th:action="@{/cadastro}" method="post" th:object="${usuario}" onsubmit="removerMascaraCPF()">
+        	<input type="text" placeholder="CPF" th:field="*{cpf}" maxlength="14" id="cpf"
+        		oninput="this.value = this.value.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')" required>
             <input type="text" placeholder="Nome" th:field="*{nome}" required>
             <input type="email" placeholder="E-mail" th:field="*{email}" required>
             <input type="password" placeholder="Senha" th:field="*{senha}" required>
@@ -25,5 +27,11 @@
         </form>
         <a href="/login" class="login-link">Já tem uma conta? Faça login</a>
     </div>
+    <script>
+		function removerMascaraCPF() {
+		    const cpfInput = document.getElementById('cpf');
+		    cpfInput.value = cpfInput.value.replace(/\D/g, '');
+		}
+	</script>
 </body>
 </html>

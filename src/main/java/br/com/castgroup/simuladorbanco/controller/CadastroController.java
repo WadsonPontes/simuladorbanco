@@ -8,6 +8,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.castgroup.simuladorbanco.annotation.PublicRoute;
 import br.com.castgroup.simuladorbanco.enums.SituacaoEnum;
 import br.com.castgroup.simuladorbanco.model.Usuario;
 import br.com.castgroup.simuladorbanco.service.UsuarioService;
@@ -17,6 +18,7 @@ public class CadastroController {
 	@Autowired
     private UsuarioService usuarioService;
 	
+	@PublicRoute
 	@GetMapping("/cadastro")
     public ModelAndView cadastro() {
 		ModelAndView mav = new ModelAndView("cadastro");
@@ -24,6 +26,7 @@ public class CadastroController {
         return mav;
     }
 	
+	@PublicRoute
 	@PostMapping("/cadastro")
     public ModelAndView cadastrar(Usuario usuario, RedirectAttributes redirectAttributes) {
 		SituacaoEnum situacao = usuarioService.criar(usuario);

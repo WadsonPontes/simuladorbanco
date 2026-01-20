@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.castgroup.simuladorbanco.annotation.PublicRoute;
+import br.com.castgroup.simuladorbanco.annotation.RequireLogin;
 import br.com.castgroup.simuladorbanco.enums.SituacaoEnum;
 import br.com.castgroup.simuladorbanco.model.Usuario;
 import br.com.castgroup.simuladorbanco.service.UsuarioService;
 
 @Controller
 public class LoginController {
+	
 	@Autowired
     private UsuarioService usuarioService;
 	
+	@PublicRoute
 	@GetMapping("/login")
     public ModelAndView login() {
 		ModelAndView mav = new ModelAndView("login");
@@ -25,6 +29,7 @@ public class LoginController {
         return mav;
     }
 	
+	@PublicRoute
 	@PostMapping("/login")
     public ModelAndView logar(Usuario usuario, RedirectAttributes redirectAttributes, HttpSession session) {
 		SituacaoEnum situacao = usuarioService.logar(usuario, session);
@@ -40,6 +45,7 @@ public class LoginController {
 	    return mav;
     }
 	
+	@RequireLogin
 	@GetMapping("/sair")
     public ModelAndView sair(HttpSession session) {
         session.removeAttribute("usuario");

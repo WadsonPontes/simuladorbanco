@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SituacaoEnum {
 	SUCESSO(1, true, "Sucesso no cadastro!"),
+	ERRO_CPF_NULL(3, false, "Campo CPF obrigatório"),
     ERRO_NOME_NULL(2, false, "Campo nome obrigatório"),
     ERRO_EMAIL_NULL(3, false, "Campo e-mail obrigatório"),
     ERRO_SENHA_NULL(4, false, "Campo senha obrigatório"),

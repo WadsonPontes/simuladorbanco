@@ -3,7 +3,10 @@ package br.com.castgroup.simuladorbanco.config;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import br.com.castgroup.simuladorbanco.annotation.PublicRoute;
 import br.com.castgroup.simuladorbanco.annotation.RequireAdmin;
+import br.com.castgroup.simuladorbanco.annotation.RequireCliente;
 import br.com.castgroup.simuladorbanco.annotation.RequireLogin;
 import br.com.castgroup.simuladorbanco.enums.TipoUsuarioEnum;
 import br.com.castgroup.simuladorbanco.model.Usuario;
@@ -23,47 +26,53 @@ public class AuthInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         
-        // Verifica se o método requer ADMIN
-        RequireAdmin requireAdmin = handlerMethod.getMethodAnnotation(RequireAdmin.class);
-        
-        // Verifica se o método requer LOGIN
-        RequireLogin requireLogin = handlerMethod.getMethodAnnotation(RequireLogin.class);
+        boolean isAdminRoute = handlerMethod.getMethodAnnotation(RequireAdmin.class) != null;
+        boolean isClienteRoute = handlerMethod.getMethodAnnotation(RequireCliente.class) != null;
+        boolean isLoginRoute = handlerMethod.getMethodAnnotation(RequireLogin.class) != null;
+        boolean isPublicRoute = handlerMethod.getMethodAnnotation(PublicRoute.class) != null;
         
         HttpSession session = request.getSession(false);
         Usuario usuario = null;
         
-        if (session != null) {
-            usuario = (Usuario) session.getAttribute("usuario");
+        if (session == null) {
+        	if (!isPublicRoute) {
+        		response.sendRedirect("/");
+                return false;
+        	}
+        	
+        	return true;
         }
         
-        // === REGRA 1: Redirecionar usuários logados que tentam acessar login/cadastro ===
-        if (usuario != null && (uri.equals("/") || uri.equals("/login") || uri.equals("/cadastro"))) {
-            response.sendRedirect("/conta");
+    	usuario = (Usuario) session.getAttribute("usuario");
+    	
+    	if (usuario == null) {
+        	if (!isPublicRoute) {
+        		response.sendRedirect("/");
+                return false;
+        	}
+        	
+        	return true;
+        }
+    	
+		if (isPublicRoute) {
+    		if (usuario.isAdmin()) {
+    			response.sendRedirect("/admin");
+                return false;
+    		}
+    		
+    		response.sendRedirect("/conta");
             return false;
-        }
-        
-        // === REGRA 2: Proteção de rotas ADMIN ===
-        if (requireAdmin != null) {
-            // Verifica se está logado
-            if (usuario == null) {
-                response.sendRedirect("/");
-                return false;
-            }
-            
-            // Verifica se é ADMIN
-            if (usuario.getTipo() == null || !usuario.getTipo().getId().equals(TipoUsuarioEnum.ADMIN.getId())) {
-                response.sendRedirect("/conta");
-                return false;
-            }
-        }
-        
-        // === REGRA 3: Proteção de rotas que requerem apenas LOGIN ===
-        if (requireLogin != null && requireAdmin == null) {
-            if (usuario == null) {
-                response.sendRedirect("/");
-                return false;
-            }
-        }
+    	}
+    	
+    	if (isClienteRoute && usuario.isAdmin()) {
+			response.sendRedirect("/admin");
+            return false;
+		}
+    	
+    	if (isAdminRoute && usuario.isCliente()) {
+			response.sendRedirect("/conta");
+            return false;
+    	}
         
         return true;
     }
