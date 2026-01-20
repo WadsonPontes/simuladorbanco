@@ -34,6 +34,12 @@ public class UsuarioService {
 		else if (usuarioRepository.existsByEmail(usuario.getEmail())) {
 			return SituacaoEnum.ERRO_EMAIL_EXISTE;
 		}
+		else if (usuarioRepository.existsByCpf(usuario.getCpf())) {
+			return SituacaoEnum.ERRO_CPF_EXISTE;
+		}
+		else if (usuario.getCpf().length() != 11) {
+			return SituacaoEnum.ERRO_CPF_INVALIDO;
+		}
 		else if (usuario.getSenha().length() < 8) {
 			return SituacaoEnum.ERRO_SENHA_FRACA;
 		}

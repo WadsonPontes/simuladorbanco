@@ -12,6 +12,8 @@ public enum SituacaoEnum {
     ERRO_EMAIL_NULL(3, false, "Campo e-mail obrigatório"),
     ERRO_SENHA_NULL(4, false, "Campo senha obrigatório"),
     ERRO_EMAIL_EXISTE(5, false, "E-mail já cadastrado"),
+    ERRO_CPF_EXISTE(5, false, "CPF já cadastrado"),
+    ERRO_CPF_INVALIDO(5, false, "CPF inválido"),
     ERRO_SENHA_FRACA(6, false, "A senha deve ter no mínimo 8 caracteres"),
     ERRO_EMAIL_NAO_EXISTE(7, false, "Usuário não cadastrado"),
     ERRO_SENHA_ERRADA(8, false, "Senha incorreta"),
